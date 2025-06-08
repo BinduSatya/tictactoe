@@ -53,6 +53,9 @@ const TicTacToe = () => {
   };
 
   const toggle = (e, num) => {
+    if (data[num] !== "") {
+      return; // Prevent clicking on an already filled box
+    }
     if (lock) {
       return 0;
     }
@@ -62,25 +65,25 @@ const TicTacToe = () => {
       e.target.innerHTML = `<img src='${_circleIcon}'>`;
       data[num] = "o";
       setCount(++count);
-      console.log("even");
     } else {
       e.target.innerHTML = `<img src='${_crossIcon}'>`;
       data[num] = "x";
       setCount(++count);
-      console.log("odd");
     }
 
-    const winner = checkWinner();
-    if (winner) {
-      //   alert(`Player ${winner.toUpperCase()} wins!`);
-      if (winner === "x") {
-        titleRef.current.innerHTML = `Congratulations : <img src = ${_crossIcon}> wins`;
-      } else if (winner === "o") {
-        titleRef.current.innerHTML = `Congratulations : <img src = ${_circleIcon}> wins`;
+    if (count >= 5) {
+      const winner = checkWinner();
+      if (winner) {
+        //   alert(`Player ${winner.toUpperCase()} wins!`);
+        if (winner === "x") {
+          titleRef.current.innerHTML = `Congratulations : <img src = ${_crossIcon}> wins`;
+        } else if (winner === "o") {
+          titleRef.current.innerHTML = `Congratulations : <img src = ${_circleIcon}> wins`;
+        }
+        setLock(true); // Lock the board after a win
+      } else if (count === 9) {
+        alert("It's a draw!");
       }
-      setLock(true); // Lock the board after a win
-    } else if (count === 9) {
-      //   alert("It's a draw!");
     }
   };
   return (
