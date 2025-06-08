@@ -23,25 +23,28 @@ const TicTacToe = () => {
 
   const reset = () => {
     setLock(false);
+    setCount(0);
+    console.clear();
     data = ["", "", "", "", "", "", "", "", "", ""];
     titleRef.current.innerHTML = "Tic Tac Toe in <span>React</span>";
     box_array.map((e) => {
       e.current.innerHTML = "";
+      return e.current.classList.remove("active");
     });
   };
 
-  const checkWinner = () => {
-    const winningCombinations = [
-      [0, 1, 2], // Row 1
-      [3, 4, 5], // Row 2
-      [6, 7, 8], // Row 3
-      [0, 3, 6], // Column 1
-      [1, 4, 7], // Column 2
-      [2, 5, 8], // Column 3
-      [0, 4, 8], // Diagonal 1
-      [2, 4, 6], // Diagonal 2
-    ];
+  const winningCombinations = [
+    [0, 1, 2], // Row 1
+    [3, 4, 5], // Row 2
+    [6, 7, 8], // Row 3
+    [0, 3, 6], // Column 1
+    [1, 4, 7], // Column 2
+    [2, 5, 8], // Column 3
+    [0, 4, 8], // Diagonal 1
+    [2, 4, 6], // Diagonal 2
+  ];
 
+  const checkWinner = () => {
     for (let combination of winningCombinations) {
       const [a, b, c] = combination;
       if (data[a] && data[a] === data[b] && data[a] === data[c]) {
@@ -53,39 +56,43 @@ const TicTacToe = () => {
   };
 
   const toggle = (e, num) => {
+    if (lock) return;
+    if (data[num] !== "") return;
+    setCount(count + 1);
+
+    console.log(num, count);
+
     // Highlight and scale the box
     e.target.classList.add("active");
     setTimeout(() => {
       e.target.classList.remove("active");
-    }, 500);
-
-    if (data[num] !== "") return;
-    if (lock) return 0;
+    }, 300);
 
     if (count % 2 === 0) {
       e.target.innerHTML = `<img src='${_circleIcon}'>`;
       data[num] = "o";
-      setCount(++count);
     } else {
       e.target.innerHTML = `<img src='${_crossIcon}'>`;
       data[num] = "x";
-      setCount(++count);
     }
 
     if (count >= 5) {
       const winner = checkWinner();
-      if (winner) {
+      if (winner != null) {
         if (winner === "x") {
           titleRef.current.innerHTML = `Congratulations : <img src = ${_crossIcon}> wins`;
         } else if (winner === "o") {
           titleRef.current.innerHTML = `Congratulations : <img src = ${_circleIcon}> wins`;
         }
         setLock(true);
-      } else if (count === 9) {
+        return;
+      }
+      if (count === 8) {
+        titleRef.current.innerHTML = "It's a draw!";
         setTimeout(() => {
-          titleRef.current.innerHTML = "It's a draw!";
           alert("It's a draw!");
         }, 300);
+        return;
       }
     }
   };
