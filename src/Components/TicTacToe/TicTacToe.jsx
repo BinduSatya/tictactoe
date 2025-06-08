@@ -53,13 +53,14 @@ const TicTacToe = () => {
   };
 
   const toggle = (e, num) => {
-    if (data[num] !== "") {
-      return; // Prevent clicking on an already filled box
-    }
-    if (lock) {
-      return 0;
-    }
-    // console.log("Clikcing");
+    // Highlight and scale the box
+    e.target.classList.add("active");
+    setTimeout(() => {
+      e.target.classList.remove("active");
+    }, 500);
+
+    if (data[num] !== "") return;
+    if (lock) return 0;
 
     if (count % 2 === 0) {
       e.target.innerHTML = `<img src='${_circleIcon}'>`;
@@ -74,15 +75,17 @@ const TicTacToe = () => {
     if (count >= 5) {
       const winner = checkWinner();
       if (winner) {
-        //   alert(`Player ${winner.toUpperCase()} wins!`);
         if (winner === "x") {
           titleRef.current.innerHTML = `Congratulations : <img src = ${_crossIcon}> wins`;
         } else if (winner === "o") {
           titleRef.current.innerHTML = `Congratulations : <img src = ${_circleIcon}> wins`;
         }
-        setLock(true); // Lock the board after a win
+        setLock(true);
       } else if (count === 9) {
-        alert("It's a draw!");
+        setTimeout(() => {
+          titleRef.current.innerHTML = "It's a draw!";
+          alert("It's a draw!");
+        }, 300);
       }
     }
   };

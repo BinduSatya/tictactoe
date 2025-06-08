@@ -1,58 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #121212;
+  color: #e0e0e0;
+  max-height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
 .container {
   text-align: center;
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #181c1f;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+  padding-bottom: 20px;
+  max-width: 100%;
 }
 
 .title {
-  margin-top: 10px;
-  color: white;
-  font-size: 40px;
+  color: #e0e0e0;
+  font-size: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  word-break: break-word;
 }
 
 .title span {
   color: #26ffcb;
-  padding-left: 15px;
+  padding-left: 0.8rem;
+}
+
+.title img {
+  padding: 0.5rem;
+  height: 2rem;
 }
 
 .reset {
-  width: 200px;
-  height: 50px;
+  width: 60vw;
+  max-width: 200px;
+  min-width: 100px;
+  height: 3rem;
   border: none;
   outline: none;
   cursor: pointer;
   border-radius: 50px;
   color: #26ffcb;
-  background-color: #1f3540;
-  font-size: 26px;
-  /* margin-top: 0px; */
-  margin-bottom: 10px;
+  background-color: #232b32;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  transition: background 0.2s;
+}
+
+.reset:hover {
+  background-color: #26ffcb;
+  color: #232b32;
+}
+
+/* Ensure the board is always a 3x3 grid and stays square, but boxes shrink on small screens */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 12px; /* Use a fixed gap for consistent spacing */
+  width: 90vw;
+  max-width: 420px;
+  aspect-ratio: 1 / 1; /* Always square */
+  margin: 0 auto;
+  background: #181c1f;
+  border-radius: 16px;
+  padding: 0 0 2vw 0;
 }
 
 .boxes {
   display: flex;
-  height: 150px;
-  width: 150px;
+  align-items: center;
+  justify-content: center;
   background-color: #1f3540;
   border: 4px solid #0f1b21;
   border-radius: 12px;
   cursor: pointer;
-}
-
-.board {
-  height: 500px;
-  width: 500px;
-  display: flex;
-  margin: auto;
+  transition: background 0.2s, transform 0.2s;
+  width: 100%;
+  height: 100%;
+  min-width: 44px;
+  min-height: 44px;
+  max-width: 140px;
+  margin: 4px;
+  max-height: 140px;
 }
 
 .boxes img {
-  margin: 30px 30px;
+  max-width: 60%;
+  max-height: 60%;
+  object-fit: cover;
+  margin: 0;
+  padding: 10px;
 }
 
-.title img {
-  padding: 10px 10px;
-  height: 30px;
+/* Highlight and scale on click */
+.boxes.active {
+  background-color: rgba(38, 255, 203, 0.5) !important;
+  transform: scale(1.04);
+  transition: background 0.7s, transform 0.1s;
+}
+
+/* 7. Media Queries for smaller screens */
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.5rem;
+    margin-top: 1.2rem;
+  }
+  .reset {
+    font-size: 1rem;
+    height: 2.2rem;
+    max-width: 120px;
+  }
+  .board {
+    width: 90vw;
+    max-width: 90vw;
+    min-width: 50vw;
+    aspect-ratio: 1 / 1;
+    padding: 1vw 0;
+    gap: 6px; /* Smaller but still fixed gap for mobile */
+  }
+  .boxes {
+    min-width: 32px;
+    min-height: 32px;
+    max-width: 90px;
+    max-height: 90px;
+  }
+  .boxes img {
+    max-width: 60%;
+    max-height: 60%;
+    object-fit: cover;
+    margin: 0;
+    padding: 10px;
+  }
+}
+
+/* 8. Ensure all elements are visible and fit on any screen */
+@media (max-width: 400px) {
+  .title {
+    font-size: 1.1rem;
+  }
+  .reset {
+    font-size: 0.8rem;
+    height: 1.8rem;
+    max-width: 90px;
+  }
+  .boxes {
+    min-width: 32px;
+    min-height: 32px;
+  }
 }
